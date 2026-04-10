@@ -23,7 +23,7 @@ def load_data():
 def show():
     df, source = load_data()
     if source == "kaggle":
-        st.toast("✅ Dataset téléchargé depuis Kaggle — 284,807 transactions", icon="✅")
+        st.toast("Dataset téléchargé depuis Kaggle — 284,807 transactions", icon="✅")
     elif source == "sample":
         st.toast("ℹ️ Mode démonstration — échantillon 10,000 transactions", icon="ℹ️")
     df_sample = df.sample(50000, random_state=42) if len(df) > 50000 else df
