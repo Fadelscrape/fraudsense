@@ -22,6 +22,42 @@ def load_model():
     return model, scaler, config
 
 @st.cache_data(ttl=3600, show_spinner=False)
+def compute_metrics(_model, _scaler, config):
+    base = os.path.dirname(__file__)
+    full_path   = os.path.join(base, '../../data/creditcard.csv')
+    sample_path = os.path.join(base, '../../data/creditcard_sample.csv')
+
+    path = full_path if os.path.exists(full_path) else sample_path
+    df = pd.read_csv(path)
+
+    from sklearn.metrics import (roc_curve, precision_recall_curve,
+                                 roc_auc_score, average_precision_score,
+                                 confusion_matrix)
+
+    features = config['features']
+    df['Amount_scaled'] = df['Amount'].apply(
+        lambda x: (x - 88.29) / 250.11
+    )
+    df['Time_scaled'] = df['Time'].apply(
+        lambda x: (x - 94813) / 47488
+    )
+
+    available = [f for f in features if f in df.columns]
+    X = df[available]
+    y = df['Class']
+
+    y_prob = _model.predict_proba(X)[:, 1]
+    y_pred = _model.predict(X)
+
+    fpr, tpr, _  = roc_curve(y, y_prob)
+    prec, rec, _ = precision_recall_curve(y, y_prob)
+    auc          = roc_auc_score(y, y_prob)
+    auprc        = average_precision_score(y, y_prob)
+    cm           = confusion_matrix(y, y_pred)
+
+    return fpr, tpr, prec, rec, auc, auprc, cm
+
+@st.cache_data(ttl=3600, show_spinner=False)
 def load_data():
     from utils.data_loader import download_dataset
     data_path, source = download_dataset()
@@ -72,16 +108,24 @@ def show():
     # ════════════════════════════════════════════════════
     with tab1:
 
+        with st.spinner("⏳ Calcul des métriques..."):
+            fpr, tpr, prec, rec, auc, auprc, cm = compute_metrics(
+                model, scaler, config
+            )
+
+        precision_val = cm[1, 1] / (cm[1, 1] + cm[0, 1]) if (cm[1, 1] + cm[0, 1]) > 0 else 0
+        recall_val    = cm[1, 1] / (cm[1, 1] + cm[1, 0]) if (cm[1, 1] + cm[1, 0]) > 0 else 0
+
         # KPIs performance
         c1, c2, c3, c4 = st.columns(4)
         metrics = [
-            ("🎯 AUPRC", "0.8833", "#1B3A6B",
+            ("🎯 AUPRC", f"{auprc:.4f}", "#1B3A6B",
              "Métrique principale recommandée"),
-            ("📈 ROC-AUC", "0.9817", "#2DC653",
+            ("📈 ROC-AUC", f"{auc:.4f}", "#2DC653",
              "Discrimination globale"),
-            ("🎖️ Précision", "0.83", "#F4A261",
+            ("🎖️ Précision", f"{precision_val:.2f}", "#F4A261",
              "Fraudes sur alertes totales"),
-            ("🔔 Rappel", "0.86", "#E63946",
+            ("🔔 Rappel", f"{recall_val:.2f}", "#E63946",
              "Fraudes détectées sur total"),
         ]
         for col, (label, val, color, desc) in zip([c1,c2,c3,c4], metrics):
@@ -103,17 +147,11 @@ def show():
         col1, col2 = st.columns(2)
 
         with col1:
-            # Courbe ROC simulée (basée sur nos métriques réelles)
-            fpr_pts = [0, 0.001, 0.005, 0.01, 0.02,
-                       0.05, 0.1, 0.2, 0.5, 1.0]
-            tpr_pts = [0, 0.65, 0.78, 0.83, 0.87,
-                       0.92, 0.95, 0.97, 0.99, 1.0]
-
             fig_roc = go.Figure()
             fig_roc.add_trace(go.Scatter(
-                x=fpr_pts, y=tpr_pts,
+                x=fpr, y=tpr,
                 mode='lines',
-                name='XGBoost Optuna (AUC=0.9817)',
+                name=f'XGBoost Optuna (AUC={auc:.4f})',
                 line=dict(color='#1B3A6B', width=3),
                 fill='tozeroy',
                 fillcolor='rgba(27,58,107,0.1)'
@@ -126,7 +164,7 @@ def show():
             ))
             fig_roc.add_annotation(
                 x=0.6, y=0.3,
-                text="<b>AUC = 0.9817</b>",
+                text=f"<b>AUC = {auc:.4f}</b>",
                 showarrow=False,
                 font=dict(size=16, color='#1B3A6B'),
                 bgcolor='rgba(27,58,107,0.1)',
@@ -148,17 +186,11 @@ def show():
             st.plotly_chart(fig_roc, use_container_width=True)
 
         with col2:
-            # Courbe Précision-Rappel
-            recall_pts    = [0, 0.1, 0.2, 0.3, 0.5,
-                             0.6, 0.7, 0.8, 0.86, 1.0]
-            precision_pts = [1.0, 0.98, 0.97, 0.95, 0.92,
-                             0.90, 0.88, 0.86, 0.83, 0.17]
-
             fig_pr = go.Figure()
             fig_pr.add_trace(go.Scatter(
-                x=recall_pts, y=precision_pts,
+                x=rec, y=prec,
                 mode='lines',
-                name='XGBoost Optuna (AUPRC=0.8833)',
+                name=f'XGBoost Optuna (AUPRC={auprc:.4f})',
                 line=dict(color='#E63946', width=3),
                 fill='tozeroy',
                 fillcolor='rgba(230,57,70,0.1)'
@@ -171,7 +203,7 @@ def show():
             )
             fig_pr.add_annotation(
                 x=0.4, y=0.5,
-                text="<b>AUPRC = 0.8833</b>",
+                text=f"<b>AUPRC = {auprc:.4f}</b>",
                 showarrow=False,
                 font=dict(size=16, color='#E63946'),
                 bgcolor='rgba(230,57,70,0.1)',
@@ -197,7 +229,7 @@ def show():
 
         col_m1, col_m2 = st.columns([1, 2])
         with col_m1:
-            cm_data = [[56830, 34], [12, 86]]
+            cm_data = cm.tolist()
             fig_cm = go.Figure(go.Heatmap(
                 z=cm_data,
                 x=['Prédit Normal', 'Prédit Fraude'],
@@ -217,14 +249,15 @@ def show():
 
         with col_m2:
             st.markdown("<br>", unsafe_allow_html=True)
+            tn, fp, fn, tp = cm[0, 0], cm[0, 1], cm[1, 0], cm[1, 1]
             metrics_cm = [
-                ("✅ Vrais Négatifs (TN)", "56,830",
+                ("✅ Vrais Négatifs (TN)", f"{tn:,}",
                  "Transactions normales correctement classées", "#2DC653"),
-                ("⚠️ Faux Positifs (FP)", "34",
+                ("⚠️ Faux Positifs (FP)", f"{fp:,}",
                  "Transactions normales classées comme fraudes", "#F4A261"),
-                ("❌ Faux Négatifs (FN)", "12",
+                ("❌ Faux Négatifs (FN)", f"{fn:,}",
                  "Fraudes non détectées — risque réel", "#E63946"),
-                ("🎯 Vrais Positifs (TP)", "86",
+                ("🎯 Vrais Positifs (TP)", f"{tp:,}",
                  "Fraudes correctement détectées", "#1B3A6B"),
             ]
             for label, val, desc, color in metrics_cm:
