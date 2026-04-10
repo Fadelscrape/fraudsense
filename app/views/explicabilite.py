@@ -492,54 +492,78 @@ def show():
     # TAB 4 — Dictionnaire des variables
     # ════════════════════════════════════════════════════
     with tab4:
+        from utils.variables import (VARIABLES_DICT, VARIABLES_NOTE,
+                                      VARIABLES_DESCRIPTIONS, TOP_VARIABLES)
+
         st.markdown("### 📖 Dictionnaire des variables")
         st.markdown("""
     Ce tableau présente toutes les variables utilisées
-    par le modèle pour détecter les fraudes, avec leur
-    signification en langage accessible.
+    par le modèle, avec leur signification et leur
+    impact sur la détection de fraude.
     """)
 
         st.info(VARIABLES_NOTE)
 
-        # Tableau des variables
-        correlations = {
-            'Time': 0.0, 'Amount': 0.006,
-            'Amount_scaled': 0.006, 'Time_scaled': -0.02,
-            'V1': -0.10, 'V2': 0.09, 'V3': -0.19,
-            'V4': 0.13, 'V5': -0.09, 'V6': -0.04,
-            'V7': -0.19, 'V8': 0.02, 'V9': -0.10,
-            'V10': -0.22, 'V11': 0.15, 'V12': -0.26,
-            'V13': -0.00, 'V14': -0.30, 'V15': -0.00,
-            'V16': -0.20, 'V17': -0.33, 'V18': -0.11,
-            'V19': 0.03, 'V20': 0.02, 'V21': 0.04,
-            'V22': 0.00, 'V23': -0.01, 'V24': 0.00,
-            'V25': 0.00, 'V26': 0.00, 'V27': 0.02,
-            'V28': 0.01
-        }
+        st.markdown("### 🔑 Variables les plus importantes")
 
-        importance = {
-            'V17': '⭐⭐⭐⭐⭐', 'V14': '⭐⭐⭐⭐⭐',
-            'V12': '⭐⭐⭐⭐', 'V10': '⭐⭐⭐⭐',
-            'V16': '⭐⭐⭐⭐', 'V3': '⭐⭐⭐',
-            'V7': '⭐⭐⭐', 'V11': '⭐⭐⭐',
-            'V4': '⭐⭐⭐', 'V2': '⭐⭐',
-            'Time': '⭐⭐', 'Amount': '⭐⭐',
-        }
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("**🔴 Signaux forts de FRAUDE**")
+            for var in ['V17', 'V14', 'V12', 'V10', 'V16', 'V3', 'V7']:
+                if var in VARIABLES_DESCRIPTIONS:
+                    d = VARIABLES_DESCRIPTIONS[var]
+                    st.markdown(f"""
+                <div style='background:#FEE2E2; padding:12px;
+                            border-radius:8px; margin:6px 0;
+                            border-left:4px solid #E63946;'>
+                    <strong>{var} — {d["nom"]}</strong><br>
+                    <small style='color:#6B7280;'>{d["explication"]}</small><br>
+                    <small style='color:#E63946;'>💡 {d["exemple"]}</small>
+                </div>
+                """, unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("**🟢 Signaux de transaction NORMALE**")
+            for var in ['V11', 'V4', 'V2', 'Amount', 'Time']:
+                if var in VARIABLES_DESCRIPTIONS:
+                    d = VARIABLES_DESCRIPTIONS[var]
+                    st.markdown(f"""
+                <div style='background:#D1FAE5; padding:12px;
+                            border-radius:8px; margin:6px 0;
+                            border-left:4px solid #2DC653;'>
+                    <strong>{var} — {d["nom"]}</strong><br>
+                    <small style='color:#6B7280;'>{d["explication"]}</small><br>
+                    <small style='color:#065F46;'>💡 {d["exemple"]}</small>
+                </div>
+                """, unsafe_allow_html=True)
+
+        st.markdown("### 📋 Tableau complet des variables")
 
         rows = []
         for var, label in VARIABLES_DICT.items():
             if var in ['Amount_scaled', 'Time_scaled']:
                 continue
+            desc = VARIABLES_DESCRIPTIONS.get(var, {})
+            corr = desc.get('correlation', 0.0)
+            if corr < -0.15:
+                signal = '🔴 Fort signal fraude'
+            elif corr < -0.05:
+                signal = '🟡 Signal fraude modéré'
+            elif corr > 0.05:
+                signal = '🟢 Signal normalité'
+            else:
+                signal = '⚪ Neutre'
             rows.append({
-                'Variable technique': var,
+                'Variable': var,
                 'Signification': label,
-                'Importance': importance.get(var, '⭐'),
-                'Corrélation fraude': correlations.get(var, 0.0)
+                'Signal': signal,
+                'Corrélation': round(corr, 3),
+                'Exemple concret': desc.get('exemple', 'N/A')
             })
 
         df_dict = pd.DataFrame(rows)
-        df_dict['Corrélation fraude'] = df_dict['Corrélation fraude'].round(3)
-        df_dict = df_dict.sort_values('Corrélation fraude')
+        df_dict = df_dict.sort_values('Corrélation')
 
         st.dataframe(
             df_dict,
@@ -547,34 +571,6 @@ def show():
             hide_index=True,
             height=600
         )
-
-        st.markdown("### 🔑 Les variables les plus importantes")
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-            st.markdown("**🔴 Signaux forts de FRAUDE**")
-            for var in ['V17', 'V14', 'V12', 'V10', 'V16']:
-                st.markdown(f"""
-            <div style='background:#FEE2E2; padding:10px;
-                        border-radius:8px; margin:4px 0;
-                        border-left:4px solid #E63946;'>
-                <strong>{var}</strong> — {VARIABLES_DICT.get(var, var)}<br>
-                <small>Corrélation : {correlations.get(var, 0):.3f}</small>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col2:
-            st.markdown("**🟢 Signaux de transaction NORMALE**")
-            for var in ['V11', 'V4', 'V2', 'V8', 'V19']:
-                st.markdown(f"""
-            <div style='background:#D1FAE5; padding:10px;
-                        border-radius:8px; margin:4px 0;
-                        border-left:4px solid #2DC653;'>
-                <strong>{var}</strong> — {VARIABLES_DICT.get(var, var)}<br>
-                <small>Corrélation : +{correlations.get(var, 0):.3f}</small>
-            </div>
-            """, unsafe_allow_html=True)
 
     # ── Footer ────────────────────────────────────────────
     st.markdown('''
