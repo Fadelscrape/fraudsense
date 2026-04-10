@@ -92,7 +92,7 @@ streamlit run app.py
 
 ## 👤 Auteur
 
-**Fadel SOHOU** — Data Analyst & Data Scientist
+**Fadel SOHOU** — Data Analyst & Data Scientist junior
 
 ---
 *Développé avec Python, Streamlit, XGBoost & SHAP*
