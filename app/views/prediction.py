@@ -260,7 +260,6 @@ def show():
                                           min_value=0.0, value=150.0,
                                           step=0.01)
         with col2:
-            st.markdown("**🔍 Caractéristiques comportementales de la transaction**")
             st.info("""
 💡 Ces indicateurs sont calculés automatiquement
 par le système bancaire à partir du comportement
@@ -269,10 +268,9 @@ du client et du terminal.
 Pour une démonstration, laissez les valeurs à 0
 (transaction standard).
 
-Les variables les plus importantes pour détecter
-une fraude sont : Comportement suspect du terminal,
-Distance inhabituelle entre terminaux et
-Fréquence anormale de transactions.
+📖 Pour plus d'informations sur les différentes
+variables, consultez le menu Explicabilité →
+section Dictionnaire des variables.
 """)
 
         # Sliders V1-V28 en 4 colonnes
@@ -294,14 +292,16 @@ Fréquence anormale de transactions.
                     step=0.1
                 )
 
-        with st.expander("⚙️ Autres variables V1-V28"):
+        with st.expander("⚙️ Autres indicateurs comportementaux"):
+            st.caption("Ces indicateurs ont une influence moindre sur la détection de fraude")
             all_vars = [f'V{i}' for i in range(1, 29)]
             remaining = [v for v in all_vars if v not in important_vars]
             cols2 = st.columns(4)
             for i, var in enumerate(remaining):
                 with cols2[i % 4]:
+                    from utils.variables import get_label
                     v_values[var] = st.slider(
-                        var,
+                        get_label(var),
                         min_value=-30.0,
                         max_value=30.0,
                         value=0.0,
