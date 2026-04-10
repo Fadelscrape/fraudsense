@@ -307,9 +307,10 @@ def show():
             shap_values, explainer, X_sample = compute_shap(model, X_sample)
 
         # Importance moyenne SHAP
+        shap_vals = shap_values[1] if isinstance(shap_values, list) else shap_values
         mean_shap = pd.DataFrame({
             'Variable': X_sample.columns,
-            'SHAP': np.abs(shap_values).mean(axis=0)
+            'SHAP': np.abs(shap_vals).mean(axis=0)
         }).sort_values('SHAP', ascending=True).tail(15)
 
         fig_shap = go.Figure(go.Bar(
