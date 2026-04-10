@@ -6,7 +6,7 @@ def download_dataset():
     data_path = os.path.join(base, '../../../data/creditcard.csv')
 
     if os.path.exists(data_path):
-        return data_path
+        return data_path, "local"
 
     try:
         os.environ['KAGGLE_USERNAME'] = st.secrets['kaggle']['username']
@@ -24,7 +24,7 @@ def download_dataset():
         )
 
         if os.path.exists(data_path):
-            return data_path
+            return data_path, "kaggle"
         else:
             st.stop()
 

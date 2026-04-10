@@ -13,15 +13,19 @@ import os
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_data():
     from utils.data_loader import download_dataset
-    data_path = download_dataset()
+    data_path, source = download_dataset()
     df = pd.read_csv(data_path)
     df['Hour'] = (df['Time'] / 3600) % 24
     df['Amount_log'] = np.log1p(df['Amount'])
     df['Class_label'] = df['Class'].map({0: 'Normal', 1: 'Fraude'})
-    return df
+    return df, source
 
 def show():
-    df = load_data()
+    df, source = load_data()
+    if source == "kaggle":
+        st.toast("✅ Dataset téléchargé depuis Kaggle — 284,807 transactions", icon="✅")
+    elif source == "sample":
+        st.toast("ℹ️ Mode démonstration — échantillon 10,000 transactions", icon="ℹ️")
     df_sample = df.sample(50000, random_state=42) if len(df) > 50000 else df
 
     # ── Header ────────────────────────────────────────────
