@@ -1,0 +1,267 @@
+/* ============================================================
+   FRAUDSENSE — STYLES GLOBAUX
+   ============================================================ */
+
+/* Police professionnelle */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Variables globales */
+:root {
+    --primary: #1B3A6B;
+    --primary-light: #2E5BA8;
+    --accent: #E63946;
+    --success: #2DC653;
+    --warning: #F4A261;
+    --bg: #F8F9FC;
+    --card-bg: #FFFFFF;
+    --text: #1A1A2E;
+    --text-muted: #6B7280;
+    --border: #E5E7EB;
+    --shadow: 0 4px 20px rgba(27, 58, 107, 0.08);
+    --shadow-hover: 0 8px 30px rgba(27, 58, 107, 0.15);
+}
+
+/* Background général */
+.stApp {
+    background-color: var(--bg) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #1B3A6B 0%, #0D2137 100%) !important;
+    border-right: none !important;
+}
+
+[data-testid="stSidebar"] * {
+    color: white !important;
+}
+
+/* Titre sidebar */
+.sidebar-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: white !important;
+    text-align: center;
+    padding: 10px 0;
+    letter-spacing: 1px;
+}
+
+.sidebar-subtitle {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6) !important;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+/* KPI Cards */
+.kpi-card {
+    background: var(--card-bg);
+    padding: 24px;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+}
+
+.kpi-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 8px 0;
+}
+
+.kpi-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.kpi-delta {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Cards générales */
+.card {
+    background: var(--card-bg);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+/* Badge Fraude */
+.badge-fraud {
+    background: #FEE2E2;
+    color: #DC2626;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Badge Normal */
+.badge-normal {
+    background: #D1FAE5;
+    color: #065F46;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Header page */
+.page-header {
+    background: linear-gradient(135deg, #1B3A6B 0%, #2E5BA8 100%);
+    padding: 30px;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    color: white !important;
+}
+
+.page-header p {
+    font-size: 14px;
+    opacity: 0.8;
+    margin: 8px 0 0;
+    color: white !important;
+}
+
+/* Boutons */
+.stButton > button {
+    background: linear-gradient(135deg, #1B3A6B, #2E5BA8) !important;
+    color: white !important;
+    padding: 12px 30px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+}
+
+/* Metric */
+[data-testid="stMetric"] {
+    background: white;
+    padding: 20px;
+}
+
+/* Tabs */
+.stTabs [data-baseweb="tab-list"] {
+    background: white;
+    padding: 4px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    font-weight: 500;
+}
+
+/* Divider */
+.divider {
+    height: 2px;
+    background: linear-gradient(90deg, #1B3A6B, #2E5BA8, transparent);
+    margin: 20px 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #1B3A6B; }
+
+/* Navigation menu items */
+[data-testid="stSidebar"] .nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 500 !important;
+}
+
+[data-testid="stSidebar"] .nav-link:hover {
+    background: rgba(255,255,255,0.2) !important;
+    color: white !important;
+}
+
+[data-testid="stSidebar"] .nav-link-selected {
+    background: rgba(255,255,255,0.25) !important;
+    color: white !important;
+    font-weight: 700 !important;
+}
+
+[data-testid="stSidebar"] .nav-link .icon {
+    color: white !important;
+    opacity: 1 !important;
+}
+
+/* Forcer la visibilité du texte option menu */
+[data-testid="stSidebar"] span {
+    color: white !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stSidebar"] svg {
+    fill: white !important;
+    opacity: 0.9 !important;
+}
+
+/* Fix menu background blanc */
+[data-testid="stSidebar"] [data-testid="stVerticalBlock"] div[style] {
+    background-color: transparent !important;
+}
+
+/* Fix option menu container */
+nav[class*="st-"] {
+    background-color: transparent !important;
+}
+
+/* Supprimer tout fond blanc dans sidebar */
+[data-testid="stSidebar"] div[class*="css"] {
+    background-color: transparent !important;
+}
+
+/* Menu items bien visibles */
+[data-testid="stSidebar"] ul li a {
+    color: white !important;
+    background: transparent !important;
+}
+
+[data-testid="stSidebar"] ul li a:hover {
+    background: rgba(255,255,255,0.2) !important;
+}
+
+/* Cacher éléments Streamlit en anglais */
+[data-testid="stToolbar"] {
+    display: none !important;
+}
+
+[data-testid="stDecoration"] {
+    display: none !important;
+}
+
+/* Sidebar footer */
+footer {
+    display: none !important;
+}
+
+/* Cacher "Made with Streamlit" */
+#MainMenu {
+    display: none !important;
+}
+
+[data-testid="stPlotlyChart"] {
+    background: white !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+[data-testid="stPlotlyChart"] > div {
+    width: 100% !important;
+    height: 100% !important;
+}

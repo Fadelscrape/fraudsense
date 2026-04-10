@@ -1,0 +1,22 @@
+# Dataset (trop lourd pour GitHub)
+data/creditcard.csv
+data/*.csv
+
+# Environnement virtuel
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Modèle sauvegardé (optionnel - lourd)
+# model/*.pkl
+
+# Variables d'environnement
+.env
+
+# OS
+.DS_Store
+Thumbs.db
