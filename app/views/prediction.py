@@ -100,7 +100,11 @@ def show():
             st.markdown("### 📂 Charger un fichier de transactions")
             st.markdown(
                 "Chargez un fichier CSV contenant vos transactions. "
-                "Le fichier doit contenir les colonnes `Time`, `Amount`, `V1`...`V28`."
+                "Le fichier doit contenir les colonnes : "
+                "`Time` (temps), `Amount` (montant) et les 28 indicateurs "
+                "comportementaux `V1` à `V28` calculés par le système bancaire. "
+                "📖 Pour comprendre ces colonnes, consultez le menu "
+                "Explicabilité → Dictionnaire des variables."
             )
             uploaded = st.file_uploader(
                 "Choisir un fichier CSV",
