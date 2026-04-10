@@ -23,12 +23,9 @@ def load_model():
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def compute_metrics(_model, _scaler, config):
-    base = os.path.dirname(__file__)
-    full_path   = os.path.join(base, '../../data/creditcard.csv')
-    sample_path = os.path.join(base, '../../data/creditcard_sample.csv')
-
-    path = full_path if os.path.exists(full_path) else sample_path
-    df = pd.read_csv(path)
+    from utils.data_loader import download_dataset
+    data_path, source = download_dataset()
+    df = pd.read_csv(data_path)
 
     from sklearn.metrics import (roc_curve, precision_recall_curve,
                                  roc_auc_score, average_precision_score,
