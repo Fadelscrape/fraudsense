@@ -8,7 +8,7 @@ def download_dataset():
     if os.path.exists(data_path):
         return data_path
 
-    st.warning("⏳ Dataset complet non trouvé — téléchargement depuis Kaggle...")
+    st.info("⏳ Téléchargement du dataset complet depuis Kaggle (143MB)...")
 
     try:
         os.environ['KAGGLE_USERNAME'] = st.secrets['kaggle']['username']
@@ -24,13 +24,17 @@ def download_dataset():
             path=os.path.dirname(data_path),
             unzip=True
         )
-        st.success("✅ Dataset téléchargé avec succès !")
-        return data_path
 
+        if os.path.exists(data_path):
+            st.success("✅ Dataset complet téléchargé — 284,807 transactions !")
+            return data_path
+        else:
+            st.error("❌ Fichier non trouvé après téléchargement")
+            st.stop()
+
+    except KeyError:
+        st.error("❌ Credentials Kaggle manquants dans les secrets Streamlit")
+        st.stop()
     except Exception as e:
-        st.info("ℹ️ Mode démonstration — utilisation de l'échantillon")
-        sample_path = os.path.join(base, '../../../data/creditcard_sample.csv')
-        if os.path.exists(sample_path):
-            return sample_path
-        st.error(f"❌ Aucun dataset disponible : {e}")
+        st.error(f"❌ Erreur : {e}")
         st.stop()
