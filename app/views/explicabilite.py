@@ -381,7 +381,8 @@ def show():
             plot_bgcolor='rgba(0,0,0,0)'
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
-        st.caption(VARIABLES_NOTE)
+        from utils.variables import VARIABLES_NOTE as VN
+        st.caption(VN)
 
     # ════════════════════════════════════════════════════
     # TAB 3 — Analyse par transaction
