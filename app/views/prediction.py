@@ -299,7 +299,6 @@ section Dictionnaire des variables.
             cols2 = st.columns(4)
             for i, var in enumerate(remaining):
                 with cols2[i % 4]:
-                    from utils.variables import get_label
                     v_values[var] = st.slider(
                         get_label(var),
                         min_value=-30.0,
