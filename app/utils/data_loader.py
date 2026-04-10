@@ -8,8 +8,6 @@ def download_dataset():
     if os.path.exists(data_path):
         return data_path
 
-    st.toast("⏳ Téléchargement du dataset depuis Kaggle...", icon="⏳")
-
     try:
         os.environ['KAGGLE_USERNAME'] = st.secrets['kaggle']['username']
         os.environ['KAGGLE_KEY'] = st.secrets['kaggle']['key']
@@ -26,15 +24,11 @@ def download_dataset():
         )
 
         if os.path.exists(data_path):
-            st.toast("✅ Dataset téléchargé !", icon="✅")
             return data_path
         else:
-            st.error("❌ Fichier non trouvé après téléchargement")
             st.stop()
 
     except KeyError:
-        st.error("❌ Credentials Kaggle manquants dans les secrets Streamlit")
         st.stop()
-    except Exception as e:
-        st.error(f"❌ Erreur : {e}")
+    except Exception:
         st.stop()
