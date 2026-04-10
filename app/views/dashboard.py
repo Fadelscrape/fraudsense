@@ -37,6 +37,21 @@ def show():
         </div>
     ''', unsafe_allow_html=True)
 
+    st.markdown("""
+<div style='background:#EFF6FF; border-radius:12px;
+            padding:16px 20px; margin-bottom:20px;
+            border-left:4px solid #1B3A6B;'>
+    <strong>📌 Contexte de l'analyse</strong><br><br>
+    Ce dashboard analyse <strong>284 807 transactions</strong>
+    par carte bancaire effectuées en septembre 2013 par des
+    titulaires européens. Sur ces transactions,
+    <strong style='color:#E63946;'>492 sont frauduleuses</strong>,
+    soit environ <strong>1 fraude sur 578 transactions</strong>.
+    L'objectif est d'identifier automatiquement ces fraudes
+    grâce au machine learning pour protéger les clients.
+</div>
+""", unsafe_allow_html=True)
+
     # ── 2. KPI Cards ──────────────────────────────────────
     col1, col2, col3, col4 = st.columns(4)
 
