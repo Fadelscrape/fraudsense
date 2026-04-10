@@ -39,7 +39,7 @@ la précision classique.
 
 ---
 
-## 🏗️ Architecture du projet
+## Architecture du projet
 
 ```
 fraudsense/
@@ -68,19 +68,23 @@ fraudsense/
 
 ## 📊 Résultats du modèle
 
-| Modèle | AUPRC | ROC-AUC | F1 Fraude |
-|--------|-------|---------|-----------|
-| SMOTE + XGBoost | 0.8270 | 0.9760 | 0.77 |
-| scale_pos_weight | 0.8675 | 0.9758 | 0.80 |
-| GridSearch | 0.8737 | 0.9748 | 0.85 |
-| **XGBoost Optuna** ✅ | **0.8833** | **0.9817** | **0.84** |
+| Modèle | AUPRC | ROC-AUC | Précision | Recall | F1 Fraude |
+|--------|-------|---------|-----------|--------|-----------|
+| SMOTE + XGBoost | 0.8270 | 0.9760 | 0.35 | 0.87 | 0.49 |
+| scale_pos_weight | 0.8675 | 0.9758 | 0.76 | 0.84 | 0.80 |
+| GridSearch | 0.8737 | 0.9748 | 0.87 | 0.83 | 0.85 |
+| **XGBoost Optuna ✅** | **0.8861** | **0.9828** | **0.84** | **0.85** | **0.84** |
 
 ### Matrice de confusion — Modèle final
 
 | | Prédit Normal | Prédit Fraude |
 |--|--|--|
-| **Réel Normal** | 56,830 ✅ | 34 ⚠️ |
-| **Réel Fraude** | 12 ❌ | 86 ✅ |
+| **Réel Normal** | 56,848 ✅ | 16 ⚠️ |
+| **Réel Fraude** | 15 ❌ | 83 ✅ |
+
+- Taux de détection des fraudes : **84.7%** (83/98)
+- Précision fraude : **83.8%**
+- Fausses alertes : seulement **16** sur 56,864 transactions normales
 
 ---
 
@@ -101,7 +105,7 @@ fraudsense/
 - Export des résultats en CSV
 - Saisie manuelle d'une transaction
 
-### 🧠 Explicabilité (SHAP)
+### Explicabilité (SHAP)
 - Importance globale des variables
 - Impact des variables sur les prédictions
 - Analyse SHAP par transaction individuelle
@@ -109,7 +113,7 @@ fraudsense/
 
 ---
 
-## 🛠️ Technologies utilisées
+## Technologies utilisées
 
 | Catégorie | Outils |
 |-----------|--------|
@@ -122,7 +126,7 @@ fraudsense/
 
 ---
 
-## ⚙️ Installation locale
+##  Installation locale
 
 ```bash
 # Cloner le repo
@@ -147,7 +151,7 @@ streamlit run app.py
 
 ---
 
-## 📁 Dataset
+## Dataset
 
 Le dataset complet (143MB) n'est pas inclus dans
 ce repository. L'application le télécharge
@@ -166,7 +170,7 @@ et placez `creditcard.csv` dans le dossier `data/`.
 
 ---
 
-## 📄 Licence
+## Licence
 
 Ce projet est sous licence MIT — voir le fichier
 [LICENSE](LICENSE) pour plus de détails.
