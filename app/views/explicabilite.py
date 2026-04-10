@@ -10,6 +10,7 @@ import joblib
 import json
 import shap
 import os
+from utils.variables import VARIABLES_DICT, VARIABLES_NOTE, get_label, rename_features
 
 # ── Chargement modèle + données ───────────────────────────
 @st.cache_resource
@@ -58,7 +59,9 @@ def compute_metrics(_model, _scaler, config):
     auprc        = average_precision_score(y_test, y_prob)
     cm           = confusion_matrix(y_test, y_pred)
 
-    return fpr, tpr, prec, rec, auc, auprc, cm
+    # Renommer les features avec noms lisibles
+    feature_names = [get_label(f) for f in X_test.columns]
+    return fpr, tpr, prec, rec, auc, auprc, cm, feature_names
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_data():
@@ -72,7 +75,8 @@ def load_data():
 def compute_shap(_model, X_sample):
     explainer   = shap.TreeExplainer(_model)
     shap_values = explainer.shap_values(X_sample)
-    return shap_values, explainer
+    X_sample = rename_features(X_sample)
+    return shap_values, explainer, X_sample
 
 def prepare_features(df, scaler, config):
     features = config['features']
@@ -112,7 +116,7 @@ def show():
     with tab1:
 
         with st.spinner("⏳ Calcul des métriques..."):
-            fpr, tpr, prec, rec, auc, auprc, cm = compute_metrics(
+            fpr, tpr, prec, rec, auc, auprc, cm, feature_names = compute_metrics(
                 model, scaler, config
             )
 
@@ -299,7 +303,7 @@ def show():
         with st.spinner("⏳ Calcul des valeurs SHAP en cours..."):
             sample = df.sample(200, random_state=42)
             X_sample = prepare_features(sample, scaler, config)
-            shap_values, explainer = compute_shap(model, X_sample)
+            shap_values, explainer, X_sample = compute_shap(model, X_sample)
 
         # Importance moyenne SHAP
         mean_shap = pd.DataFrame({
@@ -375,6 +379,7 @@ def show():
             plot_bgcolor='rgba(0,0,0,0)'
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
+        st.caption(VARIABLES_NOTE)
 
     # ════════════════════════════════════════════════════
     # TAB 3 — Analyse par transaction
@@ -410,6 +415,7 @@ def show():
 
         row = subset.iloc[[idx]]
         X_row = prepare_features(row, scaler, config)
+        X_row_display = rename_features(X_row)
 
         # Calcul SHAP direct sans cache pour cette transaction
         explainer_local = shap.TreeExplainer(model)
@@ -437,7 +443,7 @@ def show():
         ''', unsafe_allow_html=True)
 
         # Waterfall SHAP
-        shap_series = pd.Series(shap_row, index=X_row.columns)
+        shap_series = pd.Series(shap_row, index=X_row_display.columns)
         shap_df = shap_series.abs().sort_values().tail(12)
         shap_vals = shap_series[shap_df.index]
 
@@ -477,7 +483,7 @@ def show():
 
         # Détail des valeurs de la transaction
         with st.expander("📋 Voir les valeurs de la transaction"):
-            st.dataframe(X_row.T.rename(columns={X_row.index[0]: 'Valeur'}),
+            st.dataframe(X_row_display.T.rename(columns={X_row_display.index[0]: 'Valeur'}),
                         use_container_width=True)
 
     # ── Footer ────────────────────────────────────────────

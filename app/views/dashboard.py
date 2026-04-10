@@ -8,6 +8,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import os
+from utils.variables import VARIABLES_DICT, VARIABLES_NOTE, get_label
 
 # ── Chargement des données ────────────────────────────────
 @st.cache_data(ttl=3600, show_spinner=False)
@@ -205,6 +206,9 @@ def show():
         corr_neg = correlations.head(8)
         corr_pos = correlations.tail(7)
         correlations_display = pd.concat([corr_neg, corr_pos])
+        correlations_display.index = [
+            get_label(v) for v in correlations_display.index
+        ]
 
         # Couleurs selon le signe
         colors = ['#E63946' if v < 0 else '#1B3A6B'

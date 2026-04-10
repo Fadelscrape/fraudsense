@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 import joblib
 import json
 import os
+from utils.variables import VARIABLES_DICT, get_label, TOP_VARIABLES, VARIABLES_NOTE
 
 # ── Chargement du modèle ──────────────────────────────────
 @st.cache_resource(show_spinner=False)
@@ -277,7 +278,7 @@ def show():
         for i, (var, corr) in enumerate(important_vars.items()):
             with cols[i % 3]:
                 v_values[var] = st.slider(
-                    f"{var} (corr: {corr:+.2f})",
+                    f"{get_label(var)} ({var})",
                     min_value=-30.0,
                     max_value=30.0,
                     value=0.0,
@@ -298,6 +299,8 @@ def show():
                         step=0.1,
                         key=f"slider_{var}"
                     )
+
+        st.caption(VARIABLES_NOTE)
 
         # ── Bouton Prédire ────────────────────────────
         if st.button("🔍 Analyser cette transaction", type="primary"):
