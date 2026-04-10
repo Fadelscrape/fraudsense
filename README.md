@@ -3,65 +3,124 @@
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.56-red)
 ![XGBoost](https://img.shields.io/badge/XGBoost-3.2-green)
+![SHAP](https://img.shields.io/badge/SHAP-0.51-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-## 📌 Description
+> Application de détection de fraude par carte bancaire
+> propulsée par XGBoost Optuna et expliquée par SHAP.
 
-FraudSense est une application web de détection de fraude bancaire développée avec Python et Streamlit. Elle utilise un modèle XGBoost optimisé par Optuna pour détecter les transactions frauduleuses en temps réel.
+🔗 **[Voir l'application en ligne](https://fraudsense-d965nmu29nca4pyjzud59n.streamlit.app)**
 
-## 🎯 Performance du modèle
+---
 
-| Métrique | Score |
-|----------|-------|
-| AUPRC | **0.8833** |
-| ROC-AUC | **0.9817** |
-| Precision | **0.83** |
-| Recall | **0.86** |
+## 📋 Contexte
 
-## 🚀 Fonctionnalités
+Les sociétés de cartes de crédit doivent être capables
+de reconnaître les transactions frauduleuses afin que
+les clients ne soient pas facturés pour des achats
+qu'ils n'ont pas effectués.
 
-- 📊 **Dashboard** — Visualisation interactive des transactions et fraudes
-- 🔍 **Prédiction** — Analyse en temps réel via upload CSV ou saisie manuelle
-- 🧠 **Explicabilité** — Interprétation des décisions via SHAP Values
+Ce projet utilise le dataset
+[Credit Card Fraud Detection](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
+de Kaggle contenant **284,807 transactions** réelles
+effectuées par des titulaires européens en septembre 2013.
 
-## 🛠️ Stack technique
+---
 
-- **Langage** : Python 3.13
-- **Application** : Streamlit
-- **Modèle** : XGBoost + Optuna
-- **Explicabilité** : SHAP
-- **Visualisation** : Plotly
-- **Rééquilibrage** : SMOTE
+## 🎯 Problématique
 
-## 📁 Structure du projet
+Le dataset est **extrêmement déséquilibré** :
+- 284,315 transactions normales (99.827%)
+- 492 transactions frauduleuses (0.173%)
+
+La métrique principale recommandée est l'**AUPRC**
+(Area Under Precision-Recall Curve) plutôt que
+la précision classique.
+
+---
+
+## 🏗️ Architecture du projet
 
 ```
 fraudsense/
-├── app/
-│   ├── app.py              # Application principale
-│   ├── assets/
-│   │   └── style.css       # Styles personnalisés
-│   └── views/
-│       ├── dashboard.py    # Page Dashboard
-│       ├── prediction.py   # Page Prédiction
-│       └── explicabilite.py# Page Explicabilité
 ├── data/
-│   └── creditcard_sample.csv
-├── model/
-│   ├── fraud_model.pkl     # Modèle XGBoost
-│   ├── scaler.pkl          # Scaler
-│   └── config.json         # Configuration
+│   └── creditcard_sample.csv    ← échantillon 10,000 lignes
 ├── notebooks/
-│   └── 01_eda_model.ipynb  # Notebook EDA + Modélisation
+│   └── 01_eda_model.ipynb       ← EDA + modélisation
+├── model/
+│   ├── fraud_model.pkl          ← modèle XGBoost Optuna
+│   ├── scaler.pkl               ← StandardScaler
+│   └── config.json              ← configuration
+├── app/
+│   ├── app.py                   ← application principale
+│   ├── assets/
+│   │   └── style.css            ← styles CSS
+│   ├── views/
+│   │   ├── dashboard.py         ← page Dashboard
+│   │   ├── prediction.py        ← page Prédiction
+│   │   └── explicabilite.py     ← page Explicabilité
+│   └── utils/
+│       └── data_loader.py       ← chargement dataset
 └── requirements.txt
 ```
 
-## 📊 Dataset
+---
 
-- **Source** : [Credit Card Fraud Detection — Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
-- **Transactions** : 284,807
-- **Fraudes** : 492 (0.173%)
-- **Variables** : Time, Amount, V1-V28 (PCA)
+## 📊 Résultats du modèle
+
+| Modèle | AUPRC | ROC-AUC | F1 Fraude |
+|--------|-------|---------|-----------|
+| SMOTE + XGBoost | 0.8270 | 0.9760 | 0.77 |
+| scale_pos_weight | 0.8675 | 0.9758 | 0.80 |
+| GridSearch | 0.8737 | 0.9748 | 0.85 |
+| **XGBoost Optuna** ✅ | **0.8833** | **0.9817** | **0.84** |
+
+### Matrice de confusion — Modèle final
+
+| | Prédit Normal | Prédit Fraude |
+|--|--|--|
+| **Réel Normal** | 56,830 ✅ | 34 ⚠️ |
+| **Réel Fraude** | 12 ❌ | 86 ✅ |
+
+---
+
+## 🚀 Fonctionnalités de l'application
+
+### 📊 Dashboard
+- KPIs en temps réel (transactions, fraudes, taux, montants)
+- Distribution des classes (graphique donut)
+- Analyse temporelle des fraudes par heure
+- Corrélation des variables V1-V28 avec la fraude
+- Distribution des montants par classe
+
+### 🔍 Prédiction
+- Upload de fichier CSV de transactions
+- Prédiction en temps réel avec score de probabilité
+- Gauge chart de risque
+- Filtres par statut et niveau de risque
+- Export des résultats en CSV
+- Saisie manuelle d'une transaction
+
+### 🧠 Explicabilité (SHAP)
+- Importance globale des variables
+- Impact des variables sur les prédictions
+- Analyse SHAP par transaction individuelle
+- Courbes ROC et Précision-Rappel
+
+---
+
+## 🛠️ Technologies utilisées
+
+| Catégorie | Outils |
+|-----------|--------|
+| **Langage** | Python 3.13 |
+| **ML** | XGBoost, Scikit-learn, Optuna |
+| **Explicabilité** | SHAP |
+| **Visualisation** | Plotly, Matplotlib, Seaborn |
+| **Application** | Streamlit |
+| **Données** | Pandas, NumPy |
+
+---
 
 ## ⚙️ Installation locale
 
@@ -73,26 +132,41 @@ cd fraudsense
 # Créer l'environnement virtuel
 python -m venv .venv
 .venv\Scripts\activate  # Windows
+source .venv/bin/activate  # Mac/Linux
 
 # Installer les dépendances
 pip install -r requirements.txt
+
+# Télécharger le dataset
+# Placer creditcard.csv dans le dossier data/
 
 # Lancer l'application
 cd app
 streamlit run app.py
 ```
 
-## 🧠 Méthodologie
+---
 
-1. **EDA** — Analyse exploratoire du déséquilibre des classes
-2. **Preprocessing** — StandardScaler + scale_pos_weight
-3. **Modélisation** — XGBoost optimisé par Optuna (50 essais)
-4. **Évaluation** — AUPRC comme métrique principale (recommandation dataset)
-5. **Explicabilité** — SHAP Values pour interpréter les décisions
+## 📁 Dataset
+
+Le dataset complet (143MB) n'est pas inclus dans
+ce repository. L'application le télécharge
+automatiquement depuis Kaggle au démarrage.
+
+Pour une utilisation locale, téléchargez le dataset
+depuis [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
+et placez `creditcard.csv` dans le dossier `data/`.
+
+---
 
 ## 👤 Auteur
 
-**Fadel SOHOU** — Data Analyst & Data Scientist junior
+**SOHOU Fadel**
+- GitHub: [@Fadelscrape](https://github.com/Fadelscrape)
 
 ---
-*Développé avec Python, Streamlit, XGBoost & SHAP*
+
+## 📄 Licence
+
+Ce projet est sous licence MIT — voir le fichier
+[LICENSE](LICENSE) pour plus de détails.
