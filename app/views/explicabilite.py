@@ -492,8 +492,6 @@ def show():
     # TAB 4 — Dictionnaire des variables
     # ════════════════════════════════════════════════════
     with tab4:
-        from utils.variables import VARIABLES_DICT, VARIABLES_NOTE, TOP_VARIABLES
-
         st.markdown("### 📖 Dictionnaire des variables")
         st.markdown("""
     Ce tableau présente toutes les variables utilisées
