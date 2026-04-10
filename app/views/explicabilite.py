@@ -504,8 +504,6 @@ def show():
         st.info(VARIABLES_NOTE)
 
         # Tableau des variables
-        import pandas as pd
-
         correlations = {
             'Time': 0.0, 'Amount': 0.006,
             'Amount_scaled': 0.006, 'Time_scaled': -0.02,
