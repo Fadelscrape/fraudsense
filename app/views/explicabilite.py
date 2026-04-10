@@ -23,9 +23,12 @@ def load_model():
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_data():
-    path = os.path.join(os.path.dirname(__file__), '../../data/creditcard.csv')
-    df = pd.read_csv(path)
+    from utils.data_loader import download_dataset
+    data_path = download_dataset()
+    df = pd.read_csv(data_path)
     df['Hour'] = (df['Time'] / 3600) % 24
+    df['Amount_log'] = np.log1p(df['Amount'])
+    df['Class_label'] = df['Class'].map({0: 'Normal', 1: 'Fraude'})
     return df
 
 @st.cache_data(show_spinner=False)

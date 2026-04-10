@@ -17,6 +17,9 @@ __pycache__/
 # Variables d'environnement
 .env
 
+# Secrets Streamlit (clés API, credentials)
+.streamlit/secrets.toml
+
 # OS
 .DS_Store
 Thumbs.db

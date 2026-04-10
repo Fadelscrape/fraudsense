@@ -12,17 +12,17 @@ import os
 # ── Chargement des données ────────────────────────────────
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_data():
-    data_path = os.path.join(os.path.dirname(__file__), '../../data/creditcard.csv')
+    from utils.data_loader import download_dataset
+    data_path = download_dataset()
     df = pd.read_csv(data_path)
     df['Hour'] = (df['Time'] / 3600) % 24
     df['Amount_log'] = np.log1p(df['Amount'])
     df['Class_label'] = df['Class'].map({0: 'Normal', 1: 'Fraude'})
-    # Échantillon pour les graphiques lourds
-    df_sample = df.sample(50000, random_state=42) if len(df) > 50000 else df
-    return df, df_sample
+    return df
 
 def show():
-    df, df_sample = load_data()
+    df = load_data()
+    df_sample = df.sample(50000, random_state=42) if len(df) > 50000 else df
 
     # ── Header ────────────────────────────────────────────
     st.markdown('''
