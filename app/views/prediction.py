@@ -83,7 +83,7 @@ def show():
         <div class="page-header">
             <h1>🔍 Prédiction de fraude</h1>
             <p>Analysez vos transactions en temps réel · 
-               Modèle : XGBoost Optuna · AUPRC : 0.8833</p>
+               Modèle : XGBoost Optuna · AUPRC : 0.8861</p>
         </div>
     ''', unsafe_allow_html=True)
 
@@ -260,11 +260,20 @@ def show():
                                           min_value=0.0, value=150.0,
                                           step=0.01)
         with col2:
-            st.markdown("**Variables V1 - V28** *(composantes PCA)*")
-            st.info(
-                "💡 Ces variables sont anonymisées. "
-                "Laissez à 0 pour une transaction type."
-            )
+            st.markdown("**🔍 Caractéristiques comportementales de la transaction**")
+            st.info("""
+💡 Ces indicateurs sont calculés automatiquement
+par le système bancaire à partir du comportement
+du client et du terminal.
+
+Pour une démonstration, laissez les valeurs à 0
+(transaction standard).
+
+Les variables les plus importantes pour détecter
+une fraude sont : Comportement suspect du terminal,
+Distance inhabituelle entre terminaux et
+Fréquence anormale de transactions.
+""")
 
         # Sliders V1-V28 en 4 colonnes
         v_values = {}
