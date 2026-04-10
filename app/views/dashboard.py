@@ -29,7 +29,7 @@ def show():
         st.toast("ℹ️ Mode démonstration — échantillon 10,000 transactions", icon="ℹ️")
     df_sample = df.sample(50000, random_state=42) if len(df) > 50000 else df
 
-    # ── Header ────────────────────────────────────────────
+    # ── 1. Header ─────────────────────────────────────────
     st.markdown('''
         <div class="page-header">
             <h1>📊 Dashboard — Vue générale</h1>
@@ -37,7 +37,7 @@ def show():
         </div>
     ''', unsafe_allow_html=True)
 
-    # ── KPI Cards ─────────────────────────────────────────
+    # ── 2. KPI Cards ──────────────────────────────────────
     col1, col2, col3, col4 = st.columns(4)
 
     total = len(df)
@@ -83,7 +83,21 @@ def show():
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # ── Ligne 1 : Distribution + Montants ─────────────────
+    # ── 3. Interprétation des KPIs ────────────────────────
+    st.markdown("""
+<div style='background:#FEF3C7; border-radius:12px;
+            padding:14px 20px; margin:16px 0;
+            border-left:4px solid #F59E0B;'>
+    💡 <strong>Ce que ces chiffres signifient :</strong>
+    Sur 578 transactions bancaires, une seule est frauduleuse.
+    Bien que rare (0.173%), chaque fraude représente une perte
+    financière réelle pour le client. Le montant moyen d'une
+    fraude est de <strong>122€</strong> — soit plus que la
+    moyenne des transactions normales (88€).
+</div>
+""", unsafe_allow_html=True)
+
+    # ── 4. Répartition des classes + Distribution montants ─
     col1, col2 = st.columns([1, 2])
 
     with col1:
@@ -143,7 +157,21 @@ def show():
         with st.container(border=True):
             st.plotly_chart(fig_box, use_container_width=True)
 
-    # ── Ligne 2 : Timeline ────────────────────────────────
+    # ── 5. Interprétation montants ────────────────────────
+    st.markdown("""
+<div style='background:#FEF3C7; border-radius:12px;
+            padding:14px 20px; margin:16px 0;
+            border-left:4px solid #F59E0B;'>
+    💡 <strong>Observation clé :</strong>
+    Contrairement aux idées reçues, les fraudeurs n'effectuent
+    <strong>pas de grosses transactions</strong>. Avec une médiane
+    de seulement <strong>9€</strong>, ils préfèrent de petits
+    montants pour passer inaperçus et éviter les alertes
+    automatiques des banques.
+</div>
+""", unsafe_allow_html=True)
+
+    # ── 6. Timeline transactions & taux de fraude ─────────
     fraude_rate = df.groupby(df['Hour'].astype(int))['Class'].agg(['sum', 'count'])
     fraude_rate['taux'] = fraude_rate['sum'] / fraude_rate['count'] * 100
 
@@ -192,7 +220,21 @@ def show():
     with st.container(border=True):
         st.plotly_chart(fig_timeline, use_container_width=True)
 
-    # ── Ligne 3 : Corrélations + Heatmap heure ───────────
+    # ── 7. Interprétation timeline ────────────────────────
+    st.markdown("""
+<div style='background:#FEF3C7; border-radius:12px;
+            padding:14px 20px; margin:16px 0;
+            border-left:4px solid #F59E0B;'>
+    💡 <strong>Observation clé :</strong>
+    Le risque de fraude est <strong>10 fois plus élevé</strong>
+    entre <strong>minuit et 5h du matin</strong> (taux jusqu'à 1.7%)
+    comparé au reste de la journée (0.17% en moyenne).
+    C'est la période où les victimes dorment et ne surveillent
+    pas leurs comptes bancaires.
+</div>
+""", unsafe_allow_html=True)
+
+    # ── 8. Corrélations + Fraudes par heure ───────────────
     col1, col2 = st.columns(2)
 
     with col1:
@@ -272,11 +314,26 @@ def show():
         with st.container(border=True):
             st.plotly_chart(fig_heat, use_container_width=True)
 
-    # ── Footer ────────────────────────────────────────────
+    # ── 9. Interprétation corrélations ────────────────────
+    st.markdown("""
+<div style='background:#FEF3C7; border-radius:12px;
+            padding:14px 20px; margin:16px 0;
+            border-left:4px solid #F59E0B;'>
+    💡 <strong>Comment lire ces graphiques :</strong>
+    À gauche — les barres <strong style='color:#E63946;'>rouges</strong>
+    sont les signaux les plus forts de fraude. Le
+    <strong>"Comportement suspect du terminal"</strong> est
+    le signal le plus puissant (corrélation -0.33).
+    À droite — <strong>2h du matin</strong> est l'heure
+    la plus risquée avec le taux de fraude le plus élevé.
+</div>
+""", unsafe_allow_html=True)
+
+    # ── 10. Footer ────────────────────────────────────────
     st.markdown('''
-        <div style="text-align:center; padding:20px; 
+        <div style="text-align:center; padding:20px;
                     color:#6B7280; font-size:12px; margin-top:20px;">
-            FraudSense · Powered by XGBoost Optuna · 
+            FraudSense · Powered by XGBoost Optuna ·
             Dataset : Credit Card Fraud Detection (Kaggle)
         </div>
     ''', unsafe_allow_html=True)
