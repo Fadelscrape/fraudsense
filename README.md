@@ -161,7 +161,7 @@ et placez `creditcard.csv` dans le dossier `data/`.
 
 ## 👤 Auteur
 
-**SOHOU Fadel**
+**SOHOU Fadel** Data Analyst & Data scientist junior
 - GitHub: [@Fadelscrape](https://github.com/Fadelscrape)
 
 ---
