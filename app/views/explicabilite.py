@@ -24,12 +24,10 @@ def load_model():
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_data():
     from utils.data_loader import download_dataset
-    data_path = download_dataset()
+    data_path, source = download_dataset()
     df = pd.read_csv(data_path)
     df['Hour'] = (df['Time'] / 3600) % 24
-    df['Amount_log'] = np.log1p(df['Amount'])
-    df['Class_label'] = df['Class'].map({0: 'Normal', 1: 'Fraude'})
-    return df
+    return df, source
 
 @st.cache_data(show_spinner=False)
 def compute_shap(_model, X_sample):
@@ -51,7 +49,7 @@ def prepare_features(df, scaler, config):
 
 def show():
     model, scaler, config = load_model()
-    df = load_data()
+    df, source = load_data()
 
     # ── Header ────────────────────────────────────────────
     st.markdown('''
