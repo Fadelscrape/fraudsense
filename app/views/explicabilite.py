@@ -43,14 +43,20 @@ def compute_metrics(_model, _scaler, config):
     X = df[available]
     y = df['Class']
 
-    y_prob = _model.predict_proba(X)[:, 1]
-    y_pred = _model.predict(X)
+    # Utiliser uniquement le test set (20%)
+    from sklearn.model_selection import train_test_split
+    _, X_test, _, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
 
-    fpr, tpr, _  = roc_curve(y, y_prob)
-    prec, rec, _ = precision_recall_curve(y, y_prob)
-    auc          = roc_auc_score(y, y_prob)
-    auprc        = average_precision_score(y, y_prob)
-    cm           = confusion_matrix(y, y_pred)
+    y_prob = _model.predict_proba(X_test)[:, 1]
+    y_pred = _model.predict(X_test)
+
+    fpr, tpr, _  = roc_curve(y_test, y_prob)
+    prec, rec, _ = precision_recall_curve(y_test, y_prob)
+    auc          = roc_auc_score(y_test, y_prob)
+    auprc        = average_precision_score(y_test, y_prob)
+    cm           = confusion_matrix(y_test, y_pred)
 
     return fpr, tpr, prec, rec, auc, auprc, cm
 
