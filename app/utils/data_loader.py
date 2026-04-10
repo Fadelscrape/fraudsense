@@ -8,7 +8,7 @@ def download_dataset():
     if os.path.exists(data_path):
         return data_path
 
-    st.info("⏳ Téléchargement du dataset complet depuis Kaggle (143MB)...")
+    st.toast("⏳ Téléchargement du dataset depuis Kaggle...", icon="⏳")
 
     try:
         os.environ['KAGGLE_USERNAME'] = st.secrets['kaggle']['username']
@@ -26,7 +26,7 @@ def download_dataset():
         )
 
         if os.path.exists(data_path):
-            st.success("✅ Dataset complet téléchargé — 284,807 transactions !")
+            st.toast("✅ Dataset téléchargé !", icon="✅")
             return data_path
         else:
             st.error("❌ Fichier non trouvé après téléchargement")
