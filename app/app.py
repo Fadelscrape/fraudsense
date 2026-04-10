@@ -122,7 +122,7 @@ with st.sidebar:
                 XGBoost Optuna
             </div>
             <div style="font-size:12px; color:rgba(255,255,255,0.6); margin-top:4px;">
-                AUPRC : 0.8861 &nbsp;|&nbsp; AUC : 0.9828
+                AUPRC : 0.8861 &nbsp;|&nbsp; AUC : 0.9829
             </div>
         </div>
     ''', unsafe_allow_html=True)
