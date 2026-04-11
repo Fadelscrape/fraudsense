@@ -372,7 +372,7 @@ def show():
     Sur <strong>{tp+fn} fraudes réelles</strong> dans les données
     de test, le modèle en a détecté
     <strong>{tp} correctement</strong>.<br><br>
-    Il a manqué <strong>{fn} fraudes</strong> (faux négatifs) —
+    Il a manqué <strong>{fn} fraudes</strong> (faux négatifs),
     ces transactions ont été classées comme normales alors
     qu'elles étaient frauduleuses.<br><br>
     Il a également généré <strong>{fp} fausses alertes</strong>
