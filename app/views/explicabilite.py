@@ -105,10 +105,10 @@ def show():
 
     # ── Tabs ──────────────────────────────────────────────
     tab1, tab2, tab3, tab4 = st.tabs([
-        "📊 Performance du modèle",
-        "🔍 Importance des variables (SHAP)",
-        "🎯 Analyse par transaction",
-        "📖 Dictionnaire des variables"
+        " Performance du modèle",
+        " Importance des variables (SHAP)",
+        " Analyse par transaction",
+        " Dictionnaire des variables"
     ])
 
     # ════════════════════════════════════════════════════
@@ -311,10 +311,10 @@ def show():
     💡 <strong>Comment lire la matrice de confusion :</strong>
     Sur <strong>98 fraudes réelles</strong> dans les données de test,
     le modèle en a détecté <strong>83 correctement</strong> (cases vertes).
-    Il a manqué <strong>15 fraudes</strong> (faux négatifs ❌) —
+    Il a manqué <strong>15 fraudes</strong> (faux négatifs) —
     ces transactions ont été classées comme normales alors qu'elles
     étaient frauduleuses. Il a également généré
-    <strong>16 fausses alertes</strong> (faux positifs ⚠️) —
+    <strong>16 fausses alertes</strong> (faux positifs) —
     des transactions normales signalées comme suspectes.
     En contexte bancaire, minimiser les fraudes manquées
     est prioritaire.
@@ -521,12 +521,6 @@ def show():
         ''', unsafe_allow_html=True)
 
         # Waterfall SHAP
-        st.info("""
-📊 Ce graphique montre l'impact (contribution SHAP)
-de chaque variable sur la décision du modèle pour
-cette transaction — pas les valeurs brutes des variables.
-Le tableau ci-dessous montre les valeurs réelles.
-""")
         shap_series = pd.Series(shap_row, index=X_row_display.columns)
         shap_df = shap_series.abs().sort_values().tail(12)
         shap_vals = shap_series[shap_df.index]
