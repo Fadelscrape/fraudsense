@@ -158,29 +158,31 @@ def show():
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
     💡 <strong>Comment lire ces métriques :</strong><br><br>
-    Ces 4 chiffres mesurent la qualité du modèle de différentes
-    façons — comme les notes d'un élève dans différentes matières.<br><br>
-    🎯 <strong>AUPRC = {auprc:.4f}</strong> (notre note principale)<br>
-    C'est la métrique recommandée par les créateurs du dataset
-    car les fraudes sont très rares (0.173%). Un score de
-    <strong>{auprc:.2f} sur 1.0</strong> signifie que le modèle
-    est très efficace pour détecter les fraudes sans déclencher
-    trop de fausses alertes. Imaginez un détecteur de métaux
-    qui sonne rarement pour rien mais ne rate jamais une arme
-    — c'est ce niveau de précision.<br><br>
-    📈 <strong>ROC-AUC = {auc:.4f}</strong><br>
-    Ce score mesure si le modèle sait distinguer une fraude
-    d'une transaction normale. <strong>{auc:.2f} sur 1.0</strong>
-    signifie que dans {auc*100:.0f}% des cas, le modèle reconnaît
-    correctement laquelle des deux transactions est frauduleuse.<br><br>
-    🎖️ <strong>Précision = {tp/(tp+fp):.2f}</strong><br>
-    Sur 100 alertes fraude déclenchées par le modèle,
-    <strong>{tp/(tp+fp)*100:.0f} sont de vraies fraudes</strong>
-    — seulement {fp/(tp+fp)*100:.0f} sont de fausses alertes.<br><br>
-    🔔 <strong>Rappel = {tp/(tp+fn):.2f}</strong><br>
-    Sur 100 vraies fraudes dans les données, le modèle en détecte
-    <strong>{tp/(tp+fn)*100:.0f} correctement</strong>
-    — il en manque seulement {fn/(tp+fn)*100:.0f}.
+    Ces quatre métriques permettent d'évaluer la performance
+    du modèle sous différents angles, comme des notes
+    dans plusieurs matières.<br><br>
+     <strong>AUPRC = {auprc:.4f}</strong> (métrique principale)<br>
+    Cette métrique est particulièrement adaptée aux problèmes
+    déséquilibrés, comme ici où les fraudes sont très rares
+    (0,173%). Un score de {auprc:.2f} indique que le modèle
+    parvient à détecter efficacement les fraudes tout en
+    limitant les fausses alertes, ce qui est crucial
+    en pratique.<br><br>
+     <strong>ROC-AUC = {auc:.4f}</strong><br>
+    Ce score mesure la capacité du modèle à distinguer
+    les fraudes des transactions normales. Une valeur
+    proche de 1 indique que le modèle attribue généralement
+    un score plus élevé aux fraudes qu'aux transactions
+    normales.<br><br>
+     <strong>Précision = {tp/(tp+fp):.2f}</strong><br>
+    Parmi les alertes générées par le modèle,
+    {tp/(tp+fp)*100:.0f}% correspondent réellement à des
+    fraudes, ce qui limite le nombre de fausses alertes.<br><br>
+     <strong>Rappel = {tp/(tp+fn):.2f}</strong><br>
+    Sur l'ensemble des fraudes présentes dans les données
+    de test, le modèle en détecte {tp/(tp+fn)*100:.0f}%,
+    ce qui reflète sa capacité à ne pas laisser passer
+    les transactions frauduleuses.
 </div>
 """, unsafe_allow_html=True)
 
