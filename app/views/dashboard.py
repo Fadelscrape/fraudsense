@@ -104,11 +104,13 @@ def show():
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
     💡 <strong>Ce que ces chiffres signifient :</strong>
-    Sur 578 transactions bancaires, une seule est frauduleuse.
-    Bien que rare (0.173%), chaque fraude représente une perte
-    financière réelle pour le client. Le montant moyen d'une
-    fraude est de <strong>122€</strong> — soit plus que la
-    moyenne des transactions normales (88€).
+    Sur 578 transactions, une seule est frauduleuse (0,173%),
+    ce qui confirme le caractère extrêmement rare de la fraude
+    bancaire. Cependant, malgré cette faible fréquence, son
+    impact reste significatif : le montant moyen d'une fraude
+    (<strong>122€</strong>) est supérieur à celui des transactions
+    normales (<strong>88€</strong>), suggérant que les fraudes
+    peuvent entraîner des pertes financières disproportionnées.
 </div>
 """, unsafe_allow_html=True)
 
@@ -178,11 +180,12 @@ def show():
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
     💡 <strong>Observation clé :</strong>
-    Contrairement aux idées reçues, les fraudeurs n'effectuent
-    <strong>pas de grosses transactions</strong>. Avec une médiane
-    de seulement <strong>9€</strong>, ils préfèrent de petits
-    montants pour passer inaperçus et éviter les alertes
-    automatiques des banques.
+    L'analyse montre que les montants frauduleux sont
+    généralement faibles : avec une médiane de <strong>9€</strong>,
+    les fraudeurs semblent privilégier de petites transactions.
+    Cette stratégie pourrait leur permettre de passer inaperçus
+    et d'éviter les systèmes de détection automatique, souvent
+    plus sensibles aux montants élevés.
 </div>
 """, unsafe_allow_html=True)
 
@@ -241,11 +244,14 @@ def show():
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
     💡 <strong>Observation clé :</strong>
-    Le risque de fraude est <strong>10 fois plus élevé</strong>
-    entre <strong>minuit et 5h du matin</strong> (taux jusqu'à 1.7%)
-    comparé au reste de la journée (0.17% en moyenne).
-    C'est la période où les victimes dorment et ne surveillent
-    pas leurs comptes bancaires.
+    Le risque de fraude est significativement plus élevé entre
+    <strong>minuit et 5h du matin</strong>, avec un taux pouvant
+    atteindre <strong>1,7%</strong>, soit environ
+    <strong>10 fois plus</strong> que la moyenne observée sur
+    le reste de la journée (0,17%). Cette concentration nocturne
+    pourrait s'expliquer par une moindre vigilance des clients
+    durant ces heures, ce qui rend les transactions frauduleuses
+    moins susceptibles d'être détectées rapidement.
 </div>
 """, unsafe_allow_html=True)
 
@@ -334,13 +340,17 @@ def show():
 <div style='background:#FEF3C7; border-radius:12px;
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
-    💡 <strong>Comment lire ces graphiques :</strong>
-    À gauche — les barres <strong style='color:#E63946;'>rouges</strong>
-    sont les signaux les plus forts de fraude. Le
+    💡 <strong>Comment lire ces graphiques :</strong><br>
+    <strong>À gauche</strong> — les variables en
+    <strong style='color:#E63946;'>rouge</strong> représentent
+    les facteurs les plus associés à la fraude. Le
     <strong>"Comportement suspect du terminal"</strong> est
-    le signal le plus puissant (corrélation -0.33).
-    À droite — <strong>2h du matin</strong> est l'heure
-    la plus risquée avec le taux de fraude le plus élevé.
+    le signal le plus fort de fraude parmi toutes les variables,
+    bien que la relation reste modérée.<br><br>
+    <strong>À droite</strong> — l'analyse temporelle montre que
+    le taux de fraude atteint un pic autour de
+    <strong>2h du matin</strong>, suggérant une concentration
+    des activités frauduleuses durant cette période.
 </div>
 """, unsafe_allow_html=True)
 
