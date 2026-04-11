@@ -341,13 +341,13 @@ def show():
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
      <strong>Comment lire ces graphiques :</strong><br>
-    <strong>À gauche</strong> — les variables en
+    <strong>À gauche</strong>: les variables en
     <strong style='color:#E63946;'>rouge</strong> représentent
     les facteurs les plus associés à la fraude. Le
     <strong>"Comportement suspect du terminal"</strong> est
     le signal le plus fort de fraude parmi toutes les variables,
     bien que la relation reste modérée.<br><br>
-    <strong>À droite</strong> — l'analyse temporelle montre que
+    <strong>À droite</strong> : l'analyse temporelle montre que
     le taux de fraude atteint un pic autour de
     <strong>2h du matin</strong>, suggérant une concentration
     des activités frauduleuses durant cette période.
