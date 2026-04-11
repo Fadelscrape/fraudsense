@@ -123,6 +123,7 @@ def show():
 
         precision_val = cm[1, 1] / (cm[1, 1] + cm[0, 1]) if (cm[1, 1] + cm[0, 1]) > 0 else 0
         recall_val    = cm[1, 1] / (cm[1, 1] + cm[1, 0]) if (cm[1, 1] + cm[1, 0]) > 0 else 0
+        tn, fp, fn, tp = cm[0, 0], cm[0, 1], cm[1, 0], cm[1, 1]
 
         # KPIs performance
         c1, c2, c3, c4 = st.columns(4)
@@ -152,18 +153,34 @@ def show():
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        st.markdown("""
+        st.markdown(f"""
 <div style='background:#FEF3C7; border-radius:12px;
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
-    💡 <strong>Comment lire ces métriques :</strong>
-    L'<strong>AUPRC (0.8861)</strong> est la métrique principale
-    recommandée pour ce dataset déséquilibré — elle mesure la
-    capacité du modèle à détecter les fraudes sans trop de
-    fausses alertes. Un score de 0.88 sur 1.0 signifie que
-    le modèle est très performant. Le <strong>ROC-AUC (0.9828)</strong>
-    confirme que le modèle distingue très bien les transactions
-    frauduleuses des transactions normales.
+    💡 <strong>Comment lire ces métriques :</strong><br><br>
+    Ces 4 chiffres mesurent la qualité du modèle de différentes
+    façons — comme les notes d'un élève dans différentes matières.<br><br>
+    🎯 <strong>AUPRC = {auprc:.4f}</strong> (notre note principale)<br>
+    C'est la métrique recommandée par les créateurs du dataset
+    car les fraudes sont très rares (0.173%). Un score de
+    <strong>{auprc:.2f} sur 1.0</strong> signifie que le modèle
+    est très efficace pour détecter les fraudes sans déclencher
+    trop de fausses alertes. Imaginez un détecteur de métaux
+    qui sonne rarement pour rien mais ne rate jamais une arme
+    — c'est ce niveau de précision.<br><br>
+    📈 <strong>ROC-AUC = {auc:.4f}</strong><br>
+    Ce score mesure si le modèle sait distinguer une fraude
+    d'une transaction normale. <strong>{auc:.2f} sur 1.0</strong>
+    signifie que dans {auc*100:.0f}% des cas, le modèle reconnaît
+    correctement laquelle des deux transactions est frauduleuse.<br><br>
+    🎖️ <strong>Précision = {tp/(tp+fp):.2f}</strong><br>
+    Sur 100 alertes fraude déclenchées par le modèle,
+    <strong>{tp/(tp+fp)*100:.0f} sont de vraies fraudes</strong>
+    — seulement {fp/(tp+fp)*100:.0f} sont de fausses alertes.<br><br>
+    🔔 <strong>Rappel = {tp/(tp+fn):.2f}</strong><br>
+    Sur 100 vraies fraudes dans les données, le modèle en détecte
+    <strong>{tp/(tp+fn)*100:.0f} correctement</strong>
+    — il en manque seulement {fn/(tp+fn)*100:.0f}.
 </div>
 """, unsafe_allow_html=True)
 
@@ -247,44 +264,44 @@ def show():
             )
             st.plotly_chart(fig_pr, use_container_width=True)
 
-        col1, col2 = st.columns(2)
+        col_interp1, col_interp2 = st.columns(2)
 
-        with col1:
+        with col_interp1:
             st.markdown("""
     <div style='background:#FEF3C7; border-radius:12px;
                 padding:14px 20px; margin:8px 0;
                 border-left:4px solid #F59E0B;'>
-        💡 <strong>Comment lire la Courbe ROC :</strong><br>
-        Cette courbe mesure la capacité du modèle à
-        distinguer les fraudes des transactions normales.
-        Plus la courbe est proche du coin supérieur gauche,
-        meilleur est le modèle.<br><br>
+        💡 <strong>Comment lire la Courbe ROC :</strong><br><br>
+        Cette courbe mesure la capacité du modèle à distinguer
+        les fraudes des transactions normales. Plus la courbe
+        est proche du coin supérieur gauche, meilleur est
+        le modèle.<br><br>
         Notre score <strong>AUC = 0.9829</strong> signifie
         que si on prend une fraude et une transaction normale
         au hasard, le modèle identifie correctement laquelle
-        est la fraude dans <strong>98.29% des cas</strong>.<br><br>
+        est la fraude dans <strong>98% des cas</strong>.<br><br>
         La ligne pointillée représente un modèle aléatoire
         (pile ou face) — notre modèle est bien au-dessus.
     </div>
     """, unsafe_allow_html=True)
 
-        with col2:
+        with col_interp2:
             st.markdown("""
     <div style='background:#FEF3C7; border-radius:12px;
                 padding:14px 20px; margin:8px 0;
                 border-left:4px solid #F59E0B;'>
-        💡 <strong>Comment lire la Courbe Précision-Rappel :</strong><br>
+        💡 <strong>Comment lire la Courbe Précision-Rappel :</strong><br><br>
         C'est la métrique principale recommandée pour ce
-        dataset déséquilibré (0.173% de fraudes).<br><br>
-        <strong>Précision</strong> = sur toutes les alertes
-        fraude déclenchées, combien sont vraiment des fraudes ?<br>
-        <strong>Rappel</strong> = sur toutes les vraies fraudes,
-        combien le modèle en détecte ?<br><br>
-        Notre score <strong>AUPRC = 0.8861</strong> est
-        excellent — un modèle aléatoire obtiendrait
-        seulement 0.173% (la proportion de fraudes).
-        Notre modèle est donc <strong>500 fois meilleur</strong>
-        qu'un modèle aléatoire !
+        dataset car les fraudes sont très rares (0.173%).<br><br>
+        Notre score <strong>AUPRC = 0.8861</strong> signifie
+        que le modèle est capable de distinguer une transaction
+        frauduleuse d'une transaction normale dans 88.61%
+        des cas possibles.<br><br>
+        Pour mettre ce chiffre en perspective : un système
+        qui signalerait toutes les transactions comme suspectes
+        n'aurait qu'une précision de 0.173%. Notre modèle est
+        donc bien plus efficace, ce qui confirme qu'il a
+        réellement appris à reconnaître les patterns de fraude.
     </div>
     """, unsafe_allow_html=True)
 
@@ -349,17 +366,20 @@ def show():
 <div style='background:#FEF3C7; border-radius:12px;
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
-    💡 <strong>Comment lire la matrice de confusion :</strong>
-    Sur <strong>{tp+fn} fraudes réelles</strong> dans les
-    données de test, le modèle en a détecté
-    <strong>{tp} correctement</strong>. Il a manqué
-    <strong>{fn} fraudes</strong> (faux négatifs) —
-    ces transactions ont été classées comme normales
-    alors qu'elles étaient frauduleuses. Il a également
-    généré <strong>{fp} fausses alertes</strong> (faux positifs)
-    — des transactions normales signalées comme suspectes.
-    En contexte bancaire, minimiser les fraudes manquées
-    est prioritaire.
+    💡 <strong>Comment lire la matrice de confusion :</strong><br><br>
+    Sur <strong>{tp+fn} fraudes réelles</strong> dans les données
+    de test, le modèle en a détecté
+    <strong>{tp} correctement</strong>.<br><br>
+    Il a manqué <strong>{fn} fraudes</strong> (faux négatifs) —
+    ces transactions ont été classées comme normales alors
+    qu'elles étaient frauduleuses.<br><br>
+    Il a également généré <strong>{fp} fausses alertes</strong>
+    (faux positifs) — des transactions normales signalées
+    comme suspectes.<br><br>
+    En contexte bancaire, manquer une fraude signifie qu'un
+    client est débité pour un achat qu'il n'a pas effectué
+    — ce qui est bien plus grave qu'un simple blocage temporaire
+    de carte dû à une fausse alerte.
 </div>
 """, unsafe_allow_html=True)
 
