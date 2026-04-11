@@ -247,6 +247,47 @@ def show():
             )
             st.plotly_chart(fig_pr, use_container_width=True)
 
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("""
+    <div style='background:#FEF3C7; border-radius:12px;
+                padding:14px 20px; margin:8px 0;
+                border-left:4px solid #F59E0B;'>
+        💡 <strong>Comment lire la Courbe ROC :</strong><br>
+        Cette courbe mesure la capacité du modèle à
+        distinguer les fraudes des transactions normales.
+        Plus la courbe est proche du coin supérieur gauche,
+        meilleur est le modèle.<br><br>
+        Notre score <strong>AUC = 0.9829</strong> signifie
+        que si on prend une fraude et une transaction normale
+        au hasard, le modèle identifie correctement laquelle
+        est la fraude dans <strong>98.29% des cas</strong>.<br><br>
+        La ligne pointillée représente un modèle aléatoire
+        (pile ou face) — notre modèle est bien au-dessus.
+    </div>
+    """, unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("""
+    <div style='background:#FEF3C7; border-radius:12px;
+                padding:14px 20px; margin:8px 0;
+                border-left:4px solid #F59E0B;'>
+        💡 <strong>Comment lire la Courbe Précision-Rappel :</strong><br>
+        C'est la métrique principale recommandée pour ce
+        dataset déséquilibré (0.173% de fraudes).<br><br>
+        <strong>Précision</strong> = sur toutes les alertes
+        fraude déclenchées, combien sont vraiment des fraudes ?<br>
+        <strong>Rappel</strong> = sur toutes les vraies fraudes,
+        combien le modèle en détecte ?<br><br>
+        Notre score <strong>AUPRC = 0.8861</strong> est
+        excellent — un modèle aléatoire obtiendrait
+        seulement 0.173% (la proportion de fraudes).
+        Notre modèle est donc <strong>500 fois meilleur</strong>
+        qu'un modèle aléatoire !
+    </div>
+    """, unsafe_allow_html=True)
+
         # Matrice de confusion
         st.markdown("### Matrice de confusion — XGBoost Optuna")
 
