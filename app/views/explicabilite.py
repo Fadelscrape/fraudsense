@@ -334,7 +334,7 @@ def show():
 
         # Calcul SHAP sur échantillon
         with st.spinner("⏳ Calcul des valeurs SHAP en cours..."):
-            sample = df.sample(200, random_state=42)
+            sample = df.sample(1000, random_state=42)
             X_sample = prepare_features(sample, scaler, config)
             shap_values, explainer, X_sample = compute_shap(model, X_sample)
 
@@ -375,13 +375,16 @@ def show():
             border-left:4px solid #F59E0B;'>
     💡 <strong>Comment lire ce graphique :</strong>
     Ce graphique montre quelles variables ont le plus
-    influencé les décisions du modèle sur l'ensemble
-    des transactions analysées. Plus la barre est longue,
-    plus cette variable est importante pour détecter les fraudes.
-    Le <strong>"Comportement suspect du terminal"</strong> et
-    la <strong>"Distance inhabituelle entre terminaux"</strong>
-    sont les deux signaux les plus puissants utilisés
-    par le modèle.
+    influencé les décisions du modèle. Plus la barre
+    est longue, plus cette variable est déterminante
+    pour détecter les fraudes.<br><br>
+    La <strong>"Distance inhabituelle entre terminaux"</strong>
+    et le <strong>"Type et catégorie du marchand"</strong>
+    sont les deux variables les plus importantes selon
+    l'analyse SHAP sur cet échantillon. Ces résultats
+    peuvent légèrement varier selon l'échantillon analysé,
+    mais confirment que le comportement du terminal et
+    du marchand sont des signaux clés de fraude.
 </div>
 """, unsafe_allow_html=True)
 
@@ -435,13 +438,21 @@ def show():
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
     💡 <strong>Comment lire ce graphique :</strong>
-    Chaque point représente une transaction.
-    Les points à <strong style='color:#E63946;'>droite (rouge)</strong>
-    indiquent que cette variable pousse le modèle vers
-    une décision "Fraude". Les points à
-    <strong style='color:#2DC653;'>gauche (vert)</strong>
-    poussent vers "Normal". La position verticale montre
-    la valeur réelle de la variable pour cette transaction.
+    Chaque point représente une transaction analysée.
+    L'axe horizontal montre la valeur réelle de la variable
+    pour cette transaction.<br><br>
+    Les points <strong style='color:#E63946;'>rouges
+    (au-dessus de 0)</strong> indiquent que cette variable
+    pousse le modèle vers une décision
+    <strong>"Fraude"</strong> pour cette transaction.<br>
+    Les points <strong style='color:#2DC653;'>verts
+    (en-dessous de 0)</strong> indiquent que cette variable
+    pousse le modèle vers une décision
+    <strong>"Normal"</strong>.<br><br>
+    Par exemple, pour la "Distance inhabituelle entre
+    terminaux" : quand la valeur est très négative
+    (à gauche), le modèle détecte une anomalie et
+    penche vers "Fraude" (points rouges en haut).
 </div>
 """, unsafe_allow_html=True)
 
