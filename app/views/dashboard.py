@@ -32,7 +32,7 @@ def show():
     # ── 1. Header ─────────────────────────────────────────
     st.markdown('''
         <div class="page-header">
-            <h1>📊 Dashboard — Vue générale</h1>
+            <h1> Dashboard — Vue générale</h1>
             <p>Analyse exploratoire des transactions bancaires · Dataset : 284 807 transactions</p>
         </div>
     ''', unsafe_allow_html=True)

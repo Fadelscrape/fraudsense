@@ -81,7 +81,7 @@ def show():
     # ── Header ────────────────────────────────────────────
     st.markdown('''
         <div class="page-header">
-            <h1>🔍 Prédiction de fraude</h1>
+            <h1> Prédiction de fraude</h1>
             <p>Analysez vos transactions en temps réel · 
                Modèle : XGBoost Optuna · AUPRC : 0.8861</p>
         </div>
@@ -97,7 +97,7 @@ def show():
 
         col1, col2 = st.columns([2, 1])
         with col1:
-            st.markdown("### 📂 Charger un fichier de transactions")
+            st.markdown("### Charger un fichier de transactions")
             st.markdown(
                 "Chargez un fichier CSV contenant vos transactions. "
                 "Le fichier doit contenir les colonnes : "
@@ -113,7 +113,7 @@ def show():
             )
 
         with col2:
-            st.markdown("### 📋 Format attendu")
+            st.markdown("### Format attendu")
             sample = pd.DataFrame({
                 'Time': [0, 1, 2],
                 'Amount': [149.62, 2.69, 378.66],

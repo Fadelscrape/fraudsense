@@ -97,7 +97,7 @@ def show():
     # ── Header ────────────────────────────────────────────
     st.markdown('''
         <div class="page-header">
-            <h1>🧠 Explicabilité du modèle</h1>
+            <h1> Explicabilité du modèle</h1>
             <p>Comprendre les décisions du modèle XGBoost Optuna · 
                SHAP Values · Performance détaillée</p>
         </div>
@@ -233,7 +233,7 @@ def show():
             st.plotly_chart(fig_pr, use_container_width=True)
 
         # Matrice de confusion
-        st.markdown("### 📋 Matrice de confusion — XGBoost Optuna")
+        st.markdown("### Matrice de confusion — XGBoost Optuna")
 
         col_m1, col_m2 = st.columns([1, 2])
         with col_m1:
@@ -293,7 +293,7 @@ def show():
     # TAB 2 — SHAP Global
     # ════════════════════════════════════════════════════
     with tab2:
-        st.markdown("### 🔍 Importance globale des variables (SHAP)")
+        st.markdown("### Importance globale des variables (SHAP)")
         st.info(
             "💡 Les valeurs SHAP mesurent la contribution de chaque "
             "variable à la prédiction. Plus la valeur est élevée, "
@@ -338,7 +338,7 @@ def show():
         st.plotly_chart(fig_shap, use_container_width=True)
 
         # SHAP Scatter — impact + valeur
-        st.markdown("### 📊 Impact des variables sur les prédictions")
+        st.markdown("### Impact des variables sur les prédictions")
 
         top_features = mean_shap.tail(8)['Variable'].tolist()
         selected_feat = st.selectbox(
@@ -388,7 +388,7 @@ def show():
     # TAB 3 — Analyse par transaction
     # ════════════════════════════════════════════════════
     with tab3:
-        st.markdown("### 🎯 Expliquer une transaction spécifique")
+        st.markdown("### Expliquer une transaction spécifique")
         st.markdown(
             "Sélectionnez une transaction du dataset "
             "pour voir pourquoi le modèle l'a classée ainsi."
@@ -485,7 +485,7 @@ def show():
         st.plotly_chart(fig_wf, use_container_width=True)
 
         # Détail des valeurs de la transaction
-        with st.expander("📋 Voir les valeurs de la transaction"):
+        with st.expander(" Voir les valeurs de la transaction"):
             st.dataframe(X_row_display.T.rename(columns={X_row_display.index[0]: 'Valeur'}),
                         use_container_width=True)
 
@@ -496,7 +496,7 @@ def show():
         from utils.variables import (VARIABLES_DICT, VARIABLES_NOTE,
                                       VARIABLES_DESCRIPTIONS, TOP_VARIABLES)
 
-        st.markdown("### 📖 Dictionnaire des variables")
+        st.markdown("### Dictionnaire des variables")
         st.markdown("""
     Ce tableau présente toutes les variables utilisées
     par le modèle, avec leur signification et leur
@@ -539,7 +539,7 @@ def show():
                 </div>
                 """, unsafe_allow_html=True)
 
-        st.markdown("### 📋 Tableau complet des variables")
+        st.markdown("### Tableau complet des variables")
 
         rows = []
         for var, label in VARIABLES_DICT.items():
