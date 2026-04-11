@@ -304,18 +304,19 @@ def show():
                     </div>
                 ''', unsafe_allow_html=True)
 
-        st.markdown("""
+        st.markdown(f"""
 <div style='background:#FEF3C7; border-radius:12px;
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
     💡 <strong>Comment lire la matrice de confusion :</strong>
-    Sur <strong>98 fraudes réelles</strong> dans les données de test,
-    le modèle en a détecté <strong>83 correctement</strong> (cases vertes).
-    Il a manqué <strong>15 fraudes</strong> (faux négatifs) —
-    ces transactions ont été classées comme normales alors qu'elles
-    étaient frauduleuses. Il a également généré
-    <strong>16 fausses alertes</strong> (faux positifs) —
-    des transactions normales signalées comme suspectes.
+    Sur <strong>{tp+fn} fraudes réelles</strong> dans les
+    données de test, le modèle en a détecté
+    <strong>{tp} correctement</strong>. Il a manqué
+    <strong>{fn} fraudes</strong> (faux négatifs) —
+    ces transactions ont été classées comme normales
+    alors qu'elles étaient frauduleuses. Il a également
+    généré <strong>{fp} fausses alertes</strong> (faux positifs)
+    — des transactions normales signalées comme suspectes.
     En contexte bancaire, minimiser les fraudes manquées
     est prioritaire.
 </div>
