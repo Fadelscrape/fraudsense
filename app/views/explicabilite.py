@@ -152,6 +152,21 @@ def show():
 
         st.markdown("<br>", unsafe_allow_html=True)
 
+        st.markdown("""
+<div style='background:#FEF3C7; border-radius:12px;
+            padding:14px 20px; margin:16px 0;
+            border-left:4px solid #F59E0B;'>
+    💡 <strong>Comment lire ces métriques :</strong>
+    L'<strong>AUPRC (0.8861)</strong> est la métrique principale
+    recommandée pour ce dataset déséquilibré — elle mesure la
+    capacité du modèle à détecter les fraudes sans trop de
+    fausses alertes. Un score de 0.88 sur 1.0 signifie que
+    le modèle est très performant. Le <strong>ROC-AUC (0.9828)</strong>
+    confirme que le modèle distingue très bien les transactions
+    frauduleuses des transactions normales.
+</div>
+""", unsafe_allow_html=True)
+
         col1, col2 = st.columns(2)
 
         with col1:
@@ -289,6 +304,23 @@ def show():
                     </div>
                 ''', unsafe_allow_html=True)
 
+        st.markdown("""
+<div style='background:#FEF3C7; border-radius:12px;
+            padding:14px 20px; margin:16px 0;
+            border-left:4px solid #F59E0B;'>
+    💡 <strong>Comment lire la matrice de confusion :</strong>
+    Sur <strong>98 fraudes réelles</strong> dans les données de test,
+    le modèle en a détecté <strong>83 correctement</strong> (cases vertes).
+    Il a manqué <strong>15 fraudes</strong> (faux négatifs ❌) —
+    ces transactions ont été classées comme normales alors qu'elles
+    étaient frauduleuses. Il a également généré
+    <strong>16 fausses alertes</strong> (faux positifs ⚠️) —
+    des transactions normales signalées comme suspectes.
+    En contexte bancaire, minimiser les fraudes manquées
+    est prioritaire.
+</div>
+""", unsafe_allow_html=True)
+
     # ════════════════════════════════════════════════════
     # TAB 2 — SHAP Global
     # ════════════════════════════════════════════════════
@@ -337,6 +369,22 @@ def show():
         )
         st.plotly_chart(fig_shap, use_container_width=True)
 
+        st.markdown("""
+<div style='background:#FEF3C7; border-radius:12px;
+            padding:14px 20px; margin:16px 0;
+            border-left:4px solid #F59E0B;'>
+    💡 <strong>Comment lire ce graphique :</strong>
+    Ce graphique montre quelles variables ont le plus
+    influencé les décisions du modèle sur l'ensemble
+    des transactions analysées. Plus la barre est longue,
+    plus cette variable est importante pour détecter les fraudes.
+    Le <strong>"Comportement suspect du terminal"</strong> et
+    la <strong>"Distance inhabituelle entre terminaux"</strong>
+    sont les deux signaux les plus puissants utilisés
+    par le modèle.
+</div>
+""", unsafe_allow_html=True)
+
         # SHAP Scatter — impact + valeur
         st.markdown("### Impact des variables sur les prédictions")
 
@@ -381,6 +429,22 @@ def show():
             plot_bgcolor='rgba(0,0,0,0)'
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
+
+        st.markdown("""
+<div style='background:#FEF3C7; border-radius:12px;
+            padding:14px 20px; margin:16px 0;
+            border-left:4px solid #F59E0B;'>
+    💡 <strong>Comment lire ce graphique :</strong>
+    Chaque point représente une transaction.
+    Les points à <strong style='color:#E63946;'>droite (rouge)</strong>
+    indiquent que cette variable pousse le modèle vers
+    une décision "Fraude". Les points à
+    <strong style='color:#2DC653;'>gauche (vert)</strong>
+    poussent vers "Normal". La position verticale montre
+    la valeur réelle de la variable pour cette transaction.
+</div>
+""", unsafe_allow_html=True)
+
         from utils.variables import VARIABLES_NOTE as VN
         st.caption(VN)
 
