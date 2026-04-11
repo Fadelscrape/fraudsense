@@ -43,19 +43,19 @@ VARIABLES_DICT = {
 VARIABLES_DESCRIPTIONS = {
     'Time': {
         'nom': 'Temps écoulé depuis la 1ère transaction',
-        'explication': 'Nombre de secondes écoulées entre cette transaction et la première transaction du dataset.',
-        'interpretation': 'Variable neutre — utilisée pour analyser les patterns temporels.',
+        'explication': 'Nombre de secondes écoulées entre cette transaction et la première transaction du dataset (sur 2 jours).',
+        'interpretation': 'Variable temporelle neutre — utilisée pour reconstruire les patterns horaires.',
         'correlation': -0.0123,
         'signal': '⚪ Neutre',
-        'exemple': 'Une transaction à 2h du matin (temps = 7200s) est plus suspecte.'
+        'exemple': 'Les transactions enregistrées dans les premières heures du dataset correspondent à la nuit, période plus risquée pour la fraude.'
     },
     'Amount': {
         'nom': 'Montant de la transaction (€)',
         'explication': 'Le montant en euros de la transaction bancaire.',
-        'interpretation': 'Un montant inhabituel par rapport aux habitudes du client est un signal de fraude.',
-        'correlation': 0.0056,
+        'interpretation': 'Variable descriptive — le montant seul ne suffit pas à détecter une fraude mais combiné aux autres variables il apporte une information utile.',
+        'correlation': 0.006,
         'signal': '⚪ Neutre',
-        'exemple': 'Un client qui achète toujours pour 20€ fait soudain un achat de 800€ → suspect.'
+        'exemple': 'Montant médian des fraudes : 9€ vs 22€ pour les transactions normales — les fraudeurs préfèrent les petits montants.'
     },
     'V17': {
         'nom': 'Comportement suspect du terminal',
@@ -243,11 +243,11 @@ VARIABLES_DESCRIPTIONS = {
     },
     'V24': {
         'nom': 'Ratio montant vs limite de carte',
-        'explication': 'Rapport entre le montant de la transaction et la limite de crédit du client.',
-        'interpretation': 'Un ratio très élevé (proche de la limite) peut indiquer une tentative de fraude maximale.',
+        'explication': 'Composante PCA liée aux caractéristiques financières de la transaction.',
+        'interpretation': 'Signal neutre — faible impact sur la détection de fraude.',
         'correlation': -0.0072,
         'signal': '⚪ Neutre',
-        'exemple': 'Transaction de 4900€ sur une carte avec limite de 5000€ → utilisation maximale suspecte.'
+        'exemple': 'Cette variable a peu d\'influence sur la décision du modèle (corrélation < 0.01).'
     },
     'V25': {
         'nom': 'Cohérence avec le profil bancaire',

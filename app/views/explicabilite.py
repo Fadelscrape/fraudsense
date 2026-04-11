@@ -601,7 +601,7 @@ def show():
 
         with col2:
             st.markdown("**🟢 Signaux de transaction NORMALE**")
-            for var in ['V11', 'V4', 'V2', 'Amount', 'Time']:
+            for var in ['V11', 'V4', 'V2']:
                 if var in VARIABLES_DESCRIPTIONS:
                     d = VARIABLES_DESCRIPTIONS[var]
                     st.markdown(f"""
@@ -613,6 +613,20 @@ def show():
                     <small style='color:#065F46;'>💡 {d["exemple"]}</small>
                 </div>
                 """, unsafe_allow_html=True)
+
+        st.markdown("**⚪ Variables descriptives**")
+        for var in ['Amount', 'Time']:
+            if var in VARIABLES_DESCRIPTIONS:
+                d = VARIABLES_DESCRIPTIONS[var]
+                st.markdown(f"""
+        <div style='background:#F3F4F6; padding:12px;
+                    border-radius:8px; margin:6px 0;
+                    border-left:4px solid #6B7280;'>
+            <strong>{var} — {d["nom"]}</strong><br>
+            <small style='color:#6B7280;'>{d["explication"]}</small><br>
+            <small style='color:#374151;'>💡 {d["exemple"]}</small>
+        </div>
+        """, unsafe_allow_html=True)
 
         st.markdown("### Tableau complet des variables")
 
