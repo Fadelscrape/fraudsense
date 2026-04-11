@@ -250,7 +250,7 @@ def show():
     # TAB 2 — Saisie manuelle
     # ════════════════════════════════════════════════════
     with tab2:
-        st.markdown("### ✏️ Saisir une transaction manuellement")
+        st.markdown("### Saisir une transaction manuellement")
         st.markdown(
             "Entrez les caractéristiques d'une transaction "
             "pour obtenir une prédiction instantanée."

@@ -287,7 +287,7 @@ def show():
         fig_corr.add_vline(x=0, line=dict(color='black', width=1.5))
         fig_corr.update_layout(
             title=dict(
-                text="🔍 Corrélations avec la fraude (négatif = signal fort)",
+                text=" Corrélations avec la fraude (négatif = signal fort)",
                 font=dict(size=16, color='#1B3A6B')
             ),
             height=500,
@@ -323,7 +323,7 @@ def show():
             hovertemplate='%{x}h<br>Fraudes : %{y}<br>Taux : %{marker.color:.3f}%<extra></extra>'
         ))
         fig_heat.update_layout(
-            title=dict(text="🕐 Fraudes par heure (intensité = taux)",
+            title=dict(text=" Fraudes par heure (intensité = taux)",
                       font=dict(size=16, color='#1B3A6B')),
             height=400,
             margin=dict(t=50, b=20, l=20, r=20),

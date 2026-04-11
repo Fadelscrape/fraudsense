@@ -521,6 +521,12 @@ def show():
         ''', unsafe_allow_html=True)
 
         # Waterfall SHAP
+        st.info("""
+📊 Ce graphique montre l'impact (contribution SHAP)
+de chaque variable sur la décision du modèle pour
+cette transaction — pas les valeurs brutes des variables.
+Le tableau ci-dessous montre les valeurs réelles.
+""")
         shap_series = pd.Series(shap_row, index=X_row_display.columns)
         shap_df = shap_series.abs().sort_values().tail(12)
         shap_vals = shap_series[shap_df.index]
