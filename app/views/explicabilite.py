@@ -376,11 +376,11 @@ def show():
     ces transactions ont été classées comme normales alors
     qu'elles étaient frauduleuses.<br><br>
     Il a également généré <strong>{fp} fausses alertes</strong>
-    (faux positifs) — des transactions normales signalées
+    (faux positifs), des transactions normales signalées
     comme suspectes.<br><br>
     En contexte bancaire, manquer une fraude signifie qu'un
-    client est débité pour un achat qu'il n'a pas effectué
-    — ce qui est bien plus grave qu'un simple blocage temporaire
+    client est débité pour un achat qu'il n'a pas effectué,
+    ce qui est bien plus grave qu'un simple blocage temporaire
     de carte dû à une fausse alerte.
 </div>
 """, unsafe_allow_html=True)
