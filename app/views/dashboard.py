@@ -41,7 +41,7 @@ def show():
 <div style='background:#EFF6FF; border-radius:12px;
             padding:16px 20px; margin-bottom:20px;
             border-left:4px solid #1B3A6B;'>
-    <strong>📌 Contexte de l'analyse</strong><br><br>
+    <strong> Contexte de l'analyse</strong><br><br>
     Ce dashboard analyse <strong>284 807 transactions</strong>
     par carte bancaire effectuées en septembre 2013 par des
     titulaires européens. Sur ces transactions,
@@ -103,7 +103,7 @@ def show():
 <div style='background:#FEF3C7; border-radius:12px;
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
-    💡 <strong>Ce que ces chiffres signifient :</strong>
+     <strong>Ce que ces chiffres signifient :</strong>
     Sur 578 transactions, une seule est frauduleuse (0,173%),
     ce qui confirme le caractère extrêmement rare de la fraude
     bancaire. Cependant, malgré cette faible fréquence, son
@@ -179,7 +179,7 @@ def show():
 <div style='background:#FEF3C7; border-radius:12px;
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
-    💡 <strong>Observation clé :</strong>
+     <strong>Observation clé :</strong>
     L'analyse montre que les montants frauduleux sont
     généralement faibles : avec une médiane de <strong>9€</strong>,
     les fraudeurs semblent privilégier de petites transactions.
@@ -215,7 +215,7 @@ def show():
         ), secondary_y=True
     )
     fig_timeline.update_layout(
-        title=dict(text="📅 Timeline : Transactions & Taux de fraude par heure",
+        title=dict(text=" Timeline : Transactions & Taux de fraude par heure",
                   font=dict(size=16, color='#1B3A6B')),
         height=350,
         margin=dict(t=50, b=20, l=20, r=20),
@@ -243,7 +243,7 @@ def show():
 <div style='background:#FEF3C7; border-radius:12px;
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
-    💡 <strong>Observation clé :</strong>
+     <strong>Observation clé :</strong>
     Le risque de fraude est significativement plus élevé entre
     <strong>minuit et 5h du matin</strong>, avec un taux pouvant
     atteindre <strong>1,7%</strong>, soit environ
@@ -340,7 +340,7 @@ def show():
 <div style='background:#FEF3C7; border-radius:12px;
             padding:14px 20px; margin:16px 0;
             border-left:4px solid #F59E0B;'>
-    💡 <strong>Comment lire ces graphiques :</strong><br>
+     <strong>Comment lire ces graphiques :</strong><br>
     <strong>À gauche</strong> — les variables en
     <strong style='color:#E63946;'>rouge</strong> représentent
     les facteurs les plus associés à la fraude. Le
