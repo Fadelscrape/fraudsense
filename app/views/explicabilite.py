@@ -505,7 +505,7 @@ def show():
 
         st.info(VARIABLES_NOTE)
 
-        st.markdown("### 🔑 Variables les plus importantes")
+        st.markdown("### Variables les plus importantes")
 
         col1, col2 = st.columns(2)
 
