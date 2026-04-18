@@ -236,25 +236,6 @@ nav[class*="st-"] {
     background: rgba(255,255,255,0.2) !important;
 }
 
-/* Cacher éléments Streamlit en anglais */
-[data-testid="stToolbar"] {
-    display: none !important;
-}
-
-[data-testid="stDecoration"] {
-    display: none !important;
-}
-
-/* Sidebar footer */
-footer {
-    display: none !important;
-}
-
-/* Cacher "Made with Streamlit" */
-#MainMenu {
-    display: none !important;
-}
-
 [data-testid="stPlotlyChart"] {
     background: white !important;
     width: 100% !important;
@@ -266,13 +247,21 @@ footer {
     height: 100% !important;
 }
 
-/* Forcer l'affichage du bouton sidebar */
-[data-testid="collapsedControl"] {
+section[data-testid="stSidebar"] {
     display: block !important;
     visibility: visible !important;
 }
 
-section[data-testid="stSidebar"] {
-    display: block !important;
+/* Bouton réouverture sidebar */
+[data-testid="collapsedControl"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+    z-index: 999999 !important;
+}
+
+button[kind="header"] {
+    display: flex !important;
     visibility: visible !important;
 }
