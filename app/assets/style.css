@@ -265,3 +265,14 @@ footer {
     width: 100% !important;
     height: 100% !important;
 }
+
+/* Forcer l'affichage du bouton sidebar */
+[data-testid="collapsedControl"] {
+    display: block !important;
+    visibility: visible !important;
+}
+
+section[data-testid="stSidebar"] {
+    display: block !important;
+    visibility: visible !important;
+}
